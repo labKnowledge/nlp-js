@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="lib/style.css" />
+    <script src="lib/script.js"></script>
+</head>
+
+<body>
+    <h1>Hello compromise!</h1>
+    <div id="question1" contenteditable="true">
+        <p>Two thousand people have been missing in a population of seven thousand people. How many people are
+            remaining:<span id="answer"></span></p>
+
+    </div>
+    <p></p>
+
+    <script src="https://unpkg.com/compromise"></script>
+    <script>
+        const div = document.getElementById('question1');
+
+        var doc = nlp(
+            div.textContent
+        );
+        let numbers = doc.values();
+        let res = numbers.out('array');
+        let result = nlp(res[1])
+            .numbers()
+            .minus(nlp(res[0]).values().toNumber().out());
+
+        let fin = nlp(result.text());
+        let num = fin.numbers();
+        let form = fin.html({ b: num });
+        document.getElementById('answer').innerHTML = " " + form;
+    </script>
+</body>
+
+</html>
